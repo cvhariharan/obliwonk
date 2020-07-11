@@ -58,7 +58,6 @@ func CreateRepoIfNew(ctx context.Context, client *github.Client, config config.C
 		if err != nil {
 			return nil, err
 		}
-		fmt.Println(r)
 		return r, nil
 	}
 
