@@ -8,4 +8,5 @@ type Config struct {
 	ContentFooter   string `split_words:"true"`
 	MathProviderUrl string `split_words:"true" default="http://numbersapi.com/random/math"`
 	JokeProviderUrl string `split_words:"true" default="https://official-joke-api.appspot.com/random_joke"`
+	RepoPrivate     bool   `split_words:"true"`
 }

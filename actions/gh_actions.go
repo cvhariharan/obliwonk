@@ -52,7 +52,7 @@ func CreateRepoIfNew(ctx context.Context, client *github.Client, config config.C
 	if resp.StatusCode == http.StatusNotFound {
 		repo := &github.Repository{
 			Name:    github.String(config.Username),
-			Private: github.Bool(true),
+			Private: github.Bool(config.RepoPrivate),
 		}
 		r, _, err := client.Repositories.Create(ctx, "", repo)
 		if err != nil {
