@@ -20,3 +20,7 @@ OBLIWONK_MATH_PROVIDER_URL=http://numbersapi.com/random/math
 OBLIWONK_JOKE_PROVIDER_URL=https://official-joke-api.appspot.com/random_joke
 ```
 Here the `OBLIWONK_GITHUB_TOKEN` is a personal access token. The default math and joke providers use the corresponding URLs, these fields already have default values and are optional.
+
+### TODO
+- [ ] Add support for templates
+- [ ] Over-engineer
