@@ -3,7 +3,6 @@ package actions
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/cvhariharan/obliwonk/config"
@@ -12,11 +11,7 @@ import (
 )
 
 func UpdateReadMe(ctx context.Context, client *github.Client, p providers.Provider, config config.Config) (*github.RepositoryContentResponse, error) {
-	fetchedReadMe, resp, err := client.Repositories.GetReadme(ctx, config.Username, config.Username, nil)
-	if err != nil {
-		return nil, err
-	}
-
+	fetchedReadMe, resp, readMeErr := client.Repositories.GetReadme(ctx, config.Username, config.Username, nil)
 	// Providers provide the content to be added to README
 	content, err := p.GetContent()
 	if err != nil {
@@ -33,6 +28,7 @@ func UpdateReadMe(ctx context.Context, client *github.Client, p providers.Provid
 		Content: []byte(content),
 	}
 
+	// Check status code instead of error handling
 	if resp.StatusCode == http.StatusNotFound {
 		// Create README
 		r, _, err := client.Repositories.CreateFile(ctx, config.Username, config.Username, config.Readme, readme)
@@ -46,17 +42,13 @@ func UpdateReadMe(ctx context.Context, client *github.Client, p providers.Provid
 	readme.SHA = fetchedReadMe.SHA
 	r, _, err := client.Repositories.UpdateFile(ctx, config.Username, config.Username, config.Readme, readme)
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
-	return r, nil
+	return r, readMeErr
 }
 
 func CreateRepoIfNew(ctx context.Context, client *github.Client, config config.Config) (*github.Repository, error) {
 	_, resp, err := client.Repositories.Get(ctx, config.Username, config.Username)
-	if err != nil {
-		return nil, err
-	}
-
 	if resp.StatusCode == http.StatusNotFound {
 		repo := &github.Repository{
 			Name:    github.String(config.Username),
@@ -69,5 +61,6 @@ func CreateRepoIfNew(ctx context.Context, client *github.Client, config config.C
 		fmt.Println(r)
 		return r, nil
 	}
-	return nil, nil
+
+	return nil, err
 }
