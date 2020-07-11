@@ -28,7 +28,6 @@ Build a binary using `go build` and use crontab for scheduling. I personally use
 docker build . -t obliwonk:latest
 * */3 * * * docker run obliwonk:latest
 ```
-It is important to change the directory to obliwonk folder or else the env keys would not be loaded and obliwonk won't run.
 
 ### TODO
 - [ ] Add support for templates
