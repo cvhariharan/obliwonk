@@ -15,12 +15,21 @@ Add `.env` to the project dir with the following env keys
 OBLIWONK_GITHUB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 OBLIWONK_USERNAME=<github_username>
 OBLIWONK_README=README.md
+OBLIWONK_REPO_PRIVATE=true
 OBLIWONK_COMMIT_MESSAGE=Updated via Obliwonk
 OBLIWONK_MATH_PROVIDER_URL=http://numbersapi.com/random/math
 OBLIWONK_JOKE_PROVIDER_URL=https://official-joke-api.appspot.com/random_joke
 ```
 Here the `OBLIWONK_GITHUB_TOKEN` is a personal access token. The default math and joke providers use the corresponding URLs, these fields already have default values and are optional.
 
+### Instructions
+Build a binary using `go build` and use crontab for scheduling. I personally use
+```bash
+* */3 * * * cd /path/to/obliwonk/folder/withenv && ./obliwonk >> ./log.txt
+```
+It is important to change the directory to obliwonk folder or else the env keys would not be loaded and obliwonk won't run.
+
 ### TODO
 - [ ] Add support for templates
+- [ ] Add support to run this as a serverless application
 - [ ] Over-engineer
