@@ -1,4 +1,6 @@
 # Obliwonk
+[![Blog Link](https://img.shields.io/badge/post-link-blue)](https://blog.cvhariharan.me/projects/2020/07/12/obliwonk/)  
+
 **Obliwonk** is a slightly over-engineered profile README updater. Profile README is a really cool feature that allows you to add a README to your GitHub profile. You simply create a repository with your username as the repo name and add a README to it.
 
 **Obliwonk** automates this and provides the notion of *providers*. *Providers* basically provide an abstraction over any content provider (for eg. APIs). It is just a simple interface.
