@@ -26,10 +26,9 @@ Here the `OBLIWONK_GITHUB_TOKEN` is a personal access token. The default math an
 Build a binary using `go build` and use crontab for scheduling. I personally use
 ```bash
 docker build . -t obliwonk:latest
-* */3 * * * docker run obliwonk:latest
+0 */3 * * * docker run obliwonk:latest
 ```
 
 ### TODO
 - [ ] Add support for templates
-- [ ] Add support to run this as a serverless application
 - [ ] Over-engineer
