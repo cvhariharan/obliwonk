@@ -6,7 +6,7 @@
 **Obliwonk** automates this and provides the notion of *providers*. *Providers* basically provide an abstraction over any content provider (for eg. APIs). It is just a simple interface.
 ```go
 type Provider interface {
-	GetContent() (string, error)
+	GetContent() ([]byte, error)
 }
 ```
 Two providers are already included in the box, joke and math facts provider. There is also a utility function to randomly choose a provider.

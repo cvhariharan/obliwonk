@@ -25,20 +25,20 @@ func NewJokeProvider(config config.Config) Provider {
 	}
 }
 
-func (j *jokeProvider) GetContent() (string, error) {
+func (j *jokeProvider) GetContent() ([]byte, error) {
 	resp, err := http.Get(j.url)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	r, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	var joke Joke
 	err = json.Unmarshal(r, &joke)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return joke.Setup + " ... " + joke.Punchline, nil
+	return []byte(joke.Setup + " ... " + joke.Punchline), nil
 }

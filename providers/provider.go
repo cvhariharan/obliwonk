@@ -8,7 +8,7 @@ import (
 )
 
 type Provider interface {
-	GetContent() (string, error)
+	GetContent() ([]byte, error)
 }
 
 func GetRandomProvider(config config.Config) Provider {

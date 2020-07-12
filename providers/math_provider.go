@@ -18,15 +18,15 @@ func NewMathProvider(config config.Config) Provider {
 	}
 }
 
-func (m *mathProvider) GetContent() (string, error) {
+func (m *mathProvider) GetContent() ([]byte, error) {
 	resp, err := http.Get(m.url)
 	if err != nil {
 		log.Println(err)
-		return "", err
+		return nil, err
 	}
 	r, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return string(r), nil
+	return r, nil
 }
