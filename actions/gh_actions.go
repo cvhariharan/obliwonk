@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"net/http"
@@ -13,19 +14,22 @@ import (
 func UpdateReadMe(ctx context.Context, client *github.Client, p providers.Provider, config config.Config) (*github.RepositoryContentResponse, error) {
 	fetchedReadMe, resp, readMeErr := client.Repositories.GetReadme(ctx, config.Username, config.Username, nil)
 	// Providers provide the content to be added to README
-	content, err := p.GetContent()
+	c, err := p.GetContent()
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("Content: ", content)
+	fmt.Println("Content: ", string(c))
 	// Append if additional content in config
+	var content bytes.Buffer
+	content.Write(c)
+
 	if config.ContentFooter != "" {
-		content += config.ContentFooter
+		content.Write([]byte(config.ContentFooter))
 	}
 
 	readme := &github.RepositoryContentFileOptions{
 		Message: github.String(config.CommitMessage),
-		Content: []byte(content),
+		Content: content.Bytes(),
 	}
 
 	// Check status code instead of error handling
