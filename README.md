@@ -26,8 +26,58 @@ Here the `OBLIWONK_GITHUB_TOKEN` is a personal access token. The default math an
 Build a binary using `go build` and use crontab for scheduling. I personally use
 ```bash
 docker build . -t obliwonk:latest
-0 */3 * * * docker run obliwonk:latest
+0 */2 * * * docker run obliwonk:latest
 ```
+
+You can also use GitHub Actions to schedule this workflow. You can use the following workflow
+```yaml
+name: Go
+
+on:
+  schedule:
+    - cron: 0 */2 * * *
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.13
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Get dependencies
+      run: |
+        go get -v -t -d ./...
+        if [ -f Gopkg.toml ]; then
+            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+            dep ensure
+        fi
+    - name: Build
+      run: go build
+    
+    - name: Touch .env
+      run: touch .env
+    
+    - name: Run obliwonk
+      env:
+        OBLIWONK_GITHUB_TOKEN: ${{ secrets.OBLIWONK_TOKEN }}
+        OBLIWONK_USERNAME: ${{ secrets.OBLIWONK_USERNAME }}
+        OBLIWONK_README: README.md 
+        OBLIWONK_COMMIT_MESSAGE: ${{ secrets.OBLIWONK_COMMIT_MESSAGE }}
+        OBLIWONK_MATH_PROVIDER_URL: ${{ secrets.OBLIWONK_MATH_PROVIDER_URL }}
+        OBLIWONK_JOKE_PROVIDER_URL: ${{ secrets.OBLIWONK_JOKE_PROVIDER_URL }}
+      run: ./obliwonk
+
+```
+Create a file `.github/workflows/go.yml`. You will also have to create the corresponding secrets. You would have to create a new personal access token and give it repo access instead of using the default workflows GitHub token. 
 
 ### TODO
 - [ ] Add support for templates
