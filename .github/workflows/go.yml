@@ -3,6 +3,12 @@ name: Go
 on:
   schedule:
     - cron: 0 */3 * * *
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
 
