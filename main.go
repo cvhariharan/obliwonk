@@ -30,7 +30,7 @@ func main() {
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 
-	p := providers.GetRandomProvider(config)
+	p := providers.NewMathProvider(config)
 
 	_, err = actions.CreateRepoIfNew(ctx, client, config)
 	if err != nil {
