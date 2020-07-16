@@ -2,7 +2,7 @@ name: Go
 
 on:
   schedule:
-    - cron: 0 */3 * * *
+    - cron: 0 */18 * * *
   push:
     branches:
       - master
